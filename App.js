@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
+import Home from "./screens/Home";
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
+    "montserrat-light": require("./assets/fonts/Montserrat-Light.ttf"),
+    "ubuntu-regular": require("./assets/fonts/Ubuntu-Regular.ttf"),
+    "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+        onError={(e) => {
+          console.log(e);
+        }}
+      />
+    );
+  }
+
+  return <Home />;
+}
