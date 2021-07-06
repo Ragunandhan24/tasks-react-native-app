@@ -1,0 +1,9 @@
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import tasksReducer from "../reducers/tasksReducer";
+
+export const store = configureStore({
+  reducer: {
+    tasks: tasksReducer,
+  },
+  middleware: [...getDefaultMiddleware({ immutableCheck: false })],
+});

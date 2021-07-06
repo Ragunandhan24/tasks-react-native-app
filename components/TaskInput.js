@@ -3,21 +3,29 @@ import {
   View,
   TextInput,
   StyleSheet,
-  Modal,
   Text,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
+import { addTask } from "../reducers/tasksReducer";
 
-const TaskInput = (props) => {
+const TaskInput = () => {
   const [enteredTask, setEnteredTask] = useState("");
+  const dispatch = useDispatch();
 
   const inputHandler = (enteredText) => {
     setEnteredTask(enteredText);
   };
 
   const performAddTask = () => {
-    props.addTaskHandler(enteredTask);
+    dispatch(
+      addTask({
+        key: Math.floor(Math.random() * 1000).toString(),
+        value: enteredTask,
+        isCompleted: false,
+      })
+    );
     setEnteredTask("");
   };
 
@@ -56,12 +64,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
     position: "absolute",
     bottom: 0,
     width: "100%",
-    paddingLeft: 20,
-    paddingRight: 20,
+    backgroundColor: Colors.appBackgroundColor,
+    padding: 10,
   },
   textInput: {
     borderColor: "#8aa6f3",

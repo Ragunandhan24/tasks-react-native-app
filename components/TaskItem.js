@@ -5,13 +5,21 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Colors from "../constants/Colors";
+import { useDispatch } from "react-redux";
+import { deleteTask, toggleDone } from "../reducers/tasksReducer";
 
 const TaskItem = (props) => {
-  const { markAsDone, deleteTask, taskObject } = props;
+  const { taskObject } = props;
   const { key, isCompleted, value } = taskObject;
+  const dispatch = useDispatch();
 
   const checkboxStateHandle = (isChecked) => {
-    markAsDone({ ...taskObject, isCompleted: isChecked });
+    dispatch(
+      toggleDone({
+        key,
+        task: { ...taskObject, isCompleted: isChecked },
+      })
+    );
   };
 
   return (
@@ -28,7 +36,7 @@ const TaskItem = (props) => {
           <Text style={[styles.textStyle, isCompleted && styles.strikedText]}>
             {value}
           </Text>
-          <TouchableOpacity onPress={() => deleteTask(key)}>
+          <TouchableOpacity onPress={() => dispatch(deleteTask(key))}>
             <View style={styles.fontIconContainer}>
               <FontAwesomeIcon
                 icon={faTrash}
@@ -46,7 +54,6 @@ const TaskItem = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flexDirection: "row",
-    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.midnightBlue,
     borderRadius: 20,
     marginVertical: 2,
-    width: 350,
+    width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
