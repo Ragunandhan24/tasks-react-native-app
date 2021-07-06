@@ -9,12 +9,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
+import { saveNameToLocalStorage, setUserName } from "../reducers/tasksReducer";
 
 const InputModal = (props) => {
   const [value, setValue] = useState("");
-  const { closeModal, saveValue, openModal, confirmText, cancelText, heading } =
-    props;
+  const dispatch = useDispatch();
+  const { closeModal, openModal, confirmText, cancelText, heading } = props;
 
   return (
     <Modal visible={openModal} animationType="slide" transparent>
@@ -35,7 +37,13 @@ const InputModal = (props) => {
               value={value}
             />
             <View style={styles.buttonView}>
-              <TouchableOpacity onPress={() => saveValue(value)}>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(setUserName(value));
+                  dispatch(saveNameToLocalStorage(value));
+                  closeModal();
+                }}
+              >
                 <View style={[styles.buttonContainer, styles.saveButton]}>
                   <Text
                     style={{

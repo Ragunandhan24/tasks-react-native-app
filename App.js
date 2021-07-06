@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-import Home from "./screens/Home";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import TasksNavigator from "./navigator/TasksNavigator";
+import HomeScreen from "./screens/HomeScreen";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -27,5 +30,10 @@ export default function App() {
     );
   }
 
-  return <Home />;
+  return (
+    <Provider store={store}>
+      <HomeScreen />
+      <TasksNavigator />
+    </Provider>
+  );
 }

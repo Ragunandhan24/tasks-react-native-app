@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import TaskItem from "./TaskItem";
 
 const TaskList = (props) => {
-  const { deleteTask, markAsDone, taskList } = props;
+  const { taskList } = props;
 
   return (
     <View style={styles.taskListView}>
@@ -12,8 +12,7 @@ const TaskList = (props) => {
         renderItem={(taskObj) => (
           <TaskItem
             taskObject={taskObj.item}
-            deleteTask={deleteTask}
-            markAsDone={markAsDone}
+            keyExtractor={(item) => item.key}
           />
         )}
       />
@@ -22,7 +21,7 @@ const TaskList = (props) => {
 };
 
 const styles = StyleSheet.create({
-  taskListView: { paddingTop: 20, width: "100%", height: "35%" },
+  taskListView: { paddingTop: 20, width: "100%" },
 });
 
 export default TaskList;
